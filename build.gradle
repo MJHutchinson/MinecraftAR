@@ -17,9 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+version = "0.1.0"
+group= "net.mtcoster.minecraftar" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "MinecraftAR"
 
 minecraft {
     version = "1.8-11.14.3.1450"
@@ -46,7 +46,6 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
 }
 
 processResources
