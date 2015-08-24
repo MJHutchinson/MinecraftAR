@@ -9,6 +9,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.mtcoster.minecraftar.proxies.CommonProxy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by MTCoster and MJHutchinson. Created August 2015
@@ -22,6 +24,7 @@ import net.mtcoster.minecraftar.proxies.CommonProxy;
 )
 
 public class MinecraftAR {
+    public static Logger log = LogManager.getLogger();
 
     public static Item itemGoggles;
 
