@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 )
 
 public class MinecraftAR {
-    public static Logger log = LogManager.getLogger();
+    public static final Logger log = LogManager.getLogger("MinecraftAR");
 
     public static Item itemGoggles;
 
