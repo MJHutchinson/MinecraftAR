@@ -1,7 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "minecraftar:items/argoggles_item"
+    "layer0": "minecraftar:items/goggles"
   },
   "display": {
     "thirdperson": {

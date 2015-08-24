@@ -1,5 +1,6 @@
 package net.mtcoster.minecraftar;
 
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -14,13 +15,15 @@ import net.mtcoster.minecraftar.proxies.CommonProxy;
  */
 
 @Mod(
-    modid = ModInfo.MOD_ID,
-    version = ModInfo.MOD_VERSION,
-    name = ModInfo.MOD_NAME,
+    modid = "MinecraftAR",
+    version = "0.1.0",
+    name = "MinecraftAR",
     dependencies = "required-after:Forge@[11.14.1,);"
 )
 
 public class MinecraftAR {
+
+    public static Item itemGoggles;
 
     @SidedProxy(
             clientSide = "net.mtcoster.minecraftar.proxies.ClientProxy",
@@ -28,7 +31,7 @@ public class MinecraftAR {
     )
     public static CommonProxy proxy;
 
-    @Instance(ModInfo.MOD_ID)
+    @Instance("MinecraftAR")
     public static MinecraftAR instance;
 
     public MinecraftAR(){}
