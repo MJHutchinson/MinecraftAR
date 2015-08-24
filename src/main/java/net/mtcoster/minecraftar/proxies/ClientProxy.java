@@ -1,7 +1,6 @@
 package net.mtcoster.minecraftar.proxies;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -24,7 +23,6 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
 
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(MinecraftAR.itemGoggles, 0, new ModelResourceLocation("MinecraftAR:goggles", "inventory"));
-//        ModelBakery.addVariantName(MinecraftAR.itemGoggles, "MinecraftAR:goggles");
     }
 
     @Override
