@@ -1,7 +1,11 @@
 package net.mtcoster.minecraftar;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,6 +18,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.mtcoster.minecraftar.proxies.CommonProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,36 +69,64 @@ public class MinecraftAR {
         proxy.postInit(e);
     }
 
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void worldDidLastRender(RenderWorldLastEvent e) {
-        double dx = mc.thePlayer.posX - 0.5;
-        double dy = mc.thePlayer.posY + 0.5;
-        double dz = mc.thePlayer.posZ - 0.5;
+        Entity rve = mc.getRenderViewEntity();
+
+        double px = rve.prevPosX - 0.5 + (rve.posX - rve.prevPosX) * e.partialTicks;
+        double py = rve.prevPosY + 0.5 + (rve.posY - rve.prevPosY) * e.partialTicks;
+        double pz = rve.prevPosZ - 0.5 + (rve.posZ - rve.prevPosZ) * e.partialTicks;
 
         float mx = 9.0f;
         float my = 55.0f;
         float mz = 9.0f;
 
-        GL11.glPushMatrix();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
-            GL11.glTranslated(-dx, -dy, -dz);
-            GL11.glColor3b((byte) 255, (byte) 127, (byte) 0);
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glVertex3f(mx + 0.4f, my + 0.4f, mz);
-            GL11.glVertex3f(mx + 0.4f, my - 0.4f, mz);
-            GL11.glVertex3f(mx - 0.4f, my - 0.4f, mz);
-            GL11.glVertex3f(mx - 0.4f, my + 0.4f, mz);
-            /*
-            GL11.glBegin(GL11.GL_LINES);
-            GL11.glVertex3f(mx + 0.4f, my, mz + 0.4f);
-            GL11.glVertex3f(mx - 0.4f, my, mz - 0.4f);
-            GL11.glVertex3f(mx + 0.4f, my, mz - 0.4f);
-            GL11.glVertex3f(mx - 0.4f, my, mz + 0.4f);
-            */
-            GL11.glEnd();
-            GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glPopMatrix();
+        Tessellator t = Tessellator.getInstance();
+        WorldRenderer renderer = t.getWorldRenderer();
+
+        GlStateManager.pushAttrib();
+        GlStateManager.pushMatrix();
+
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_EMISSION);
+
+        renderer.startDrawing(GL11.GL_QUADS);
+
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+        renderer.setBrightness(15 << 20 | 15 << 4); // 15,728,880
+        renderer.setColorRGBA(0, 127, 255, 191);
+
+        GL11.glTranslated(mx - px, 0.00f - py, mz - pz);
+
+        double a = Math.atan((px - mx) / (pz - mz)) / Math.PI * 180 + 45;
+        if (pz - mz < 0) a += 180;
+        if (a > 360) a -= 360;
+        GL11.glRotated(a, 0.0f, 1.0f, 0.0f);
+
+        renderer.addVertex( 0.4f, my + 0.4f,  0.4f);
+        renderer.addVertex(-0.4f, my + 0.4f, -0.4f);
+        renderer.addVertex(-0.4f, my - 0.4f, -0.4f);
+        renderer.addVertex( 0.4f, my - 0.4f,  0.4f);
+
+//        renderer.addVertex(mx - 0.4f, my + 0.4f, mz - 0.01f);
+//        renderer.addVertex(mx + 0.4f, my + 0.4f, mz - 0.01f);
+//        renderer.addVertex(mx + 0.4f, my - 0.4f, mz - 0.01f);
+//        renderer.addVertex(mx - 0.4f, my - 0.4f, mz - 0.01f);
+//        renderer.addVertex(mx + 0.4f, my + 0.4f, mz + 0.01f);
+//        renderer.addVertex(mx - 0.4f, my + 0.4f, mz + 0.01f);
+//        renderer.addVertex(mx - 0.4f, my - 0.4f, mz + 0.01f);
+//        renderer.addVertex(mx + 0.4f, my - 0.4f, mz + 0.01f);
+
+        t.draw();
+
+//        GL11.glDisable(GL11.GL_EMISSION);
+//        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//        GL11.glEnable(GL11.GL_LIGHTING);
+        GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
     }
 
 }
