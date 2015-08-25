@@ -1,8 +1,5 @@
 package net.mtcoster.minecraftar.common;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.mtcoster.minecraftar.common.items.ItemGoggles;
 
@@ -14,7 +11,7 @@ public class CommonProxy {
 
     public void setupItems(){
         MinecraftAR.itemGoggles = new ItemGoggles();
-        GameRegistry.registerItem(MinecraftAR.itemGoggles, "goggles");
+        GameRegistry.registerItem(MinecraftAR.itemGoggles, ModInfo.ItemUnlocalizedNames.GOGGLE_ITEM_NAME);
     }
 
     public void setupRenderers(){}

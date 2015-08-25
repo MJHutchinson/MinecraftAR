@@ -29,15 +29,15 @@ import org.lwjgl.opengl.GL11;
  */
 
 @Mod(
-    modid = "MinecraftAR",
-    version = "0.1.0",
-    name = "MinecraftAR",
+    modid = ModInfo.MOD_ID,
+    version = ModInfo.MOD_VERSION,
+    name = ModInfo.MOD_NAME,
     dependencies = "required-after:Forge@[11.14.1,);"
 )
 
 public class MinecraftAR {
     public static final Minecraft mc = Minecraft.getMinecraft();
-    public static final Logger log = LogManager.getLogger("MinecraftAR");
+    public static final Logger log = LogManager.getLogger(ModInfo.MOD_NAME);
 
     public static Item itemGoggles;
 
@@ -47,7 +47,7 @@ public class MinecraftAR {
     )
     public static CommonProxy proxy;
 
-    @Instance("MinecraftAR")
+    @Instance(ModInfo.MOD_NAME)
     public static MinecraftAR instance;
 
     public MinecraftAR(){}
