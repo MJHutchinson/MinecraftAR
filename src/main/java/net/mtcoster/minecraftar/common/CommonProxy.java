@@ -16,4 +16,7 @@ public class CommonProxy {
 
     public void setupRenderers(){}
 
+    public void registerHandlers() {
+
+    }
 }
