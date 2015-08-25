@@ -1,4 +1,4 @@
-package net.mtcoster.minecraftar;
+package net.mtcoster.minecraftar.common;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,7 +20,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.mtcoster.minecraftar.proxies.CommonProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
@@ -43,8 +42,8 @@ public class MinecraftAR {
     public static Item itemGoggles;
 
     @SidedProxy(
-            clientSide = "net.mtcoster.minecraftar.proxies.ClientProxy",
-            serverSide = "net.mtcoster.minecraftar.proxies.CommonProxy"
+            clientSide = "net.mtcoster.minecraftar.client.ClientProxy",
+            serverSide = "net.mtcoster.minecraftar.common.CommonProxy"
     )
     public static CommonProxy proxy;
 
@@ -55,18 +54,17 @@ public class MinecraftAR {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent e){
-        proxy.preInit(e);
+        proxy.setupItems();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent e){
-        proxy.init(e);
         MinecraftForge.EVENT_BUS.register(this);
+        proxy.setupRenderers();
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent e){
-        proxy.postInit(e);
     }
 
     @SideOnly(Side.CLIENT)
@@ -91,7 +89,6 @@ public class MinecraftAR {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_EMISSION);
 
         renderer.startDrawing(GL11.GL_QUADS);
 

@@ -1,4 +1,4 @@
-package net.mtcoster.minecraftar.items;
+package net.mtcoster.minecraftar.common.items;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
