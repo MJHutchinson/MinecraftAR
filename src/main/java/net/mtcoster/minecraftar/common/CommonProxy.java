@@ -19,4 +19,8 @@ public class CommonProxy {
     public void registerHandlers() {
 
     }
+
+    public void registerOverlays() {
+
+    }
 }

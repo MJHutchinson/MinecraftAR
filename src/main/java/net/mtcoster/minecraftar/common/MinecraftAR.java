@@ -48,6 +48,8 @@ public class MinecraftAR {
     @EventHandler
     public void init(FMLInitializationEvent e){
         proxy.setupRenderers();
+        proxy.registerHandlers();
+        proxy.registerOverlays();
     }
 
     @EventHandler
